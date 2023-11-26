@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pesquisa de livros</title>
+  <style>
+      body {
+          background-color: rgb(0, 217, 255);
+          display: flex;
+          margin: 0;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+            
+      }
+
+      button {
+          padding: 8px 16px;
+          font-size: 16px;
+      }
+
+      form {
+          display: flex;
+          align-items: center;
+      }
+
+      input[type="text"] {
+          padding: 8px;
+          font-size: 16px;
+      }
+
+      .lista-scroll{
+        width: 90%;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .lista-scroll-2{
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 5px 5px;
+      }
+
+      .lista-rolagem{
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        gap: 10px;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        padding: 5px 5px;
+      }
+      .lista-scroll::-webkit-scrollbar{
+        background: transparent;
+        width: 10px;
+      }
+
+      .livro-vol:hover{
+        cursor: pointer;
+        box-shadow: rgba(57, 57, 58, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+      }
+
+      .lista-scroll::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey; 
+        border-radius: 10px;
+      }
+
+      .lista-scroll::-webkit-scrollbar-thumb {
+        background-image: linear-gradient(rgb(119, 116, 116), rgb(219, 217, 217)); 
+        border-radius: 12px;
+      }
+
+      .lista-scroll::-webkit-scrollbar-thumb:hover {
+        background-image: linear-gradient(rgb(221, 216, 216), rgb(85, 82, 82));  
+      }
+
+      .titulo-da-lista{
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      }
+
+      .livro-vol{
+        height: 330px;
+        width: 220px;
+        background-size: 220px 330px;
+        border-radius: 2px;
+        margin-top: 10px;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all .3s linear;
+        white-space: nowrap;
+        flex:none;
+        box-shadow: rgba(3, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.808) 0px 16px 13px;
+      }
+  </style>
+</head>
+<body>
+  <form action="/search" method="post">
+    <input type="text" name="search" id="search" placeholder="Busque aqui" required>
+    <button type="submit">Buscar</button>
+  </form>
+
+  <section class="lista-vol">
+    <% if (books.length > 0) { %>
+      <h2 class="titulo-da-lista">Resultado de livros</h2>
+      <div class="lista-rolagem-vol">
+      <% books.forEach(book => { %>
+        <a href="/livro/<%= book.id %>">
+        <% if (book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail) { %>
+          <img class="livro-vol" src="<%= book.volumeInfo.imageLinks.thumbnail %>">
+        <% } else { %>
+          <img class="livro-vol" src="https://missingpersons.icrc.org/sites/default/files/2021-11/00000_book.jpg">
+        <% } %>
+        </a>
+        <br>
+        <h1><%= book.volumeInfo.title %></h1>
+    <% }) }else { %>
+      <p>Não há livros no repositório, por favor adicione</p>
+    <% } %>
+      </div>
+  </section>
+
+</body>
+</html>
